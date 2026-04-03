@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Momentum Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #0f172a; color: white; text-align: center; }
+        table { margin: auto; border-collapse: collapse; width: 80%; }
+        th, td { padding: 12px; border-bottom: 1px solid #333; }
+        th { background: #1e293b; }
+        .HIGH { color: #22c55e; }
+        .MID { color: #facc15; }
+        .LOW { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+<h1>🚀 Top 5 Momentum Coins</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Gain %</th>
+            <th>RSI</th>
+            <th>Score</th>
+            <th>Class</th>
+        </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+</table>
+
+<script>
+async function fetchData() {
+    const res = await fetch('/data');
+    const data = await res.json();
+
+    const table = document.getElementById('table-body');
+    table.innerHTML = "";
+
+    data.forEach(c => {
+        table.innerHTML += `
+            <tr>
+                <td>${c.symbol}</td>
+                <td>${c.percent}%</td>
+                <td>${c.rsi}</td>
+                <td>${c.score}</td>
+                <td class="${c.class}">${c.class}</td>
+            </tr>
+        `;
+    });
+}
+
+setInterval(fetchData, 30000);
+fetchData();
+</script>
+
+</body>
+</html>
